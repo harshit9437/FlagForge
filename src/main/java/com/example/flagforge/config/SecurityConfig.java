@@ -1,6 +1,6 @@
 
 package com.example.flagforge.config;
-
+import jakarta.servlet.DispatcherType;
 import com.example.flagforge.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +34,7 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(
                                 "/auth/register",
                                 "/auth/login"

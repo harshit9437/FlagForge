@@ -14,6 +14,7 @@ public interface EnvironmentRepository extends JpaRepository<Environment,Long> {
             Long projectId,
             EnvironmentType environmentType
     );
+    Optional<Environment> findByIdAndProject_Id(Long environmentId, Long projectId);
     boolean existsByProject_IdAndName(
             Long projectId,
             EnvironmentType name

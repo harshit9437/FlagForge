@@ -1,8 +1,11 @@
 package com.example.flagforge.controller;
 
+import com.example.flagforge.dto.EnvironmentResponse;
 import com.example.flagforge.dto.ProjectRequest;
 import com.example.flagforge.dto.ProjectResponse;
 import com.example.flagforge.entity.Project;
+import com.example.flagforge.repository.EnvironmentRepository;
+import com.example.flagforge.service.EnvironmentService;
 import com.example.flagforge.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,9 +18,11 @@ import java.util.List;
 @RequestMapping("/api/projects")
 public class ProjectController {
     private final ProjectService projectService;
+    private final EnvironmentService environmentService;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, EnvironmentService environmentService) {
         this.projectService = projectService;
+        this.environmentService = environmentService;
     }
     private ProjectResponse toResponse(Project project) {
         return new ProjectResponse(
@@ -50,5 +55,11 @@ public class ProjectController {
     @GetMapping("/{id}")
     public ProjectResponse getProjectById(@PathVariable Long id) {
         return toResponse(projectService.getMyProjectById(id));
+    }
+    @GetMapping("/{projectId}/environments")
+    public ResponseEntity<List<EnvironmentResponse>> getProjectEnvironments(
+            @PathVariable Long projectId
+    ){
+        return ResponseEntity.ok(environmentService.getProjectEnvironments(projectId));
     }
 }
